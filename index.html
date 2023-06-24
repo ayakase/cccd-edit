@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            background-image: url("./images.jpg");
+            width: 30rem;
+            height: 17.8rem;
+            background-size: contain;
+            background-repeat: no-repeat;
+            position: absolute;
+        }
+
+        .no-number {
+            position: absolute;
+            top: 7.1rem;
+            left: 12rem;
+            background: none;
+            border: none;
+            font-weight: bold;
+            font-size: large;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .name-text {
+            position: absolute;
+            top: 9.7rem;
+            left: 8.8rem;
+            background: none;
+            border: none;
+            text-transform: uppercase;
+
+
+        }
+
+        .date-of-birth {
+            position: absolute;
+            top: 10.7rem;
+            left: 17.5rem;
+            background: none;
+            border: none;
+        }
+
+        .sex-text {
+            position: absolute;
+            top: 11.9rem;
+            left: 14rem;
+            width: 3rem;
+            background: none;
+            border: none;
+
+        }
+
+        .nat-text {
+            position: absolute;
+            top: 11.9rem;
+            left: 24.8rem;
+            background: none;
+            border: none;
+
+        }
+
+        .place-of-origin {
+            position: absolute;
+            top: 14.1rem;
+            left: 8.8rem;
+            background: none;
+            border: none;
+
+        }
+
+        .resident-text {
+            position: absolute;
+            top: 16rem;
+            left: 8.8rem;
+            background: none;
+            border: none;
+
+        }
+
+        #image-upload {
+            position: absolute;
+            top: 20rem;
+        }
+
+        #image-preview {
+            position: absolute;
+            width: 7rem;
+            height: 9.2rem;
+            top: 6rem;
+            left: 1rem;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        #export-button {
+            position: absolute;
+            top: 23rem;
+        }
+
+        .no-number {
+            filter: blur(0.7px);
+        }
+
+        .name-text,
+        .date-of-birth,
+        .sex-text,
+        .nat-text,
+        .place-of-origin,
+        .resident-text {
+            filter: blur(0.4px);
+        }
+
+        #image-preview {
+            filter: blur(0.8px);
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <input type="text" class="no-number" name="" id="">
+        <input type="text" class="name-text">
+        <input type="text" class="date-of-birth">
+        <input type="text" class="sex-text">
+        <input type="text" class="nat-text">
+        <input type="text" class="place-of-origin">
+        <input type="text" class="resident-text">
+        <div id="image-preview"></div>
+    </div>
+    <input type="file" id="image-upload" accept="image/*">
+    <button id="export-button">Download Image</button>
+
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+    <script defer>
+        const imageUpload = document.getElementById('image-upload');
+        const imagePreview = document.getElementById('image-preview');
+        const exportButton = document.getElementById('export-button');
+
+        imageUpload.addEventListener('change', function (e) {
+            const file = e.target.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.addEventListener('load', function () {
+                    imagePreview.style.backgroundImage = `url(${reader.result})`;
+                });
+                reader.readAsDataURL(file);
+            }
+        });
+        exportButton.addEventListener('click', function () {
+            html2canvas(document.querySelector(".container")).then(canvas => {
+                // Convert the canvas to an image
+                const image = canvas.toDataURL("image/png");
+
+                // Create a temporary link element
+                const link = document.createElement('a');
+                link.href = image;
+                link.download = 'container.png';
+
+                // Trigger the download
+                link.click();
+            });
+        });
+    </script>
+</body>
+
+</html>
